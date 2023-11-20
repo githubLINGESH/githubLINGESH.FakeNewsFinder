@@ -4,6 +4,7 @@ from googleapiclient.discovery import build
 
 app = Flask(__name__)
 
+app.static_folder = 'templates'
 # Route for the home page
 @app.route('/')
 def home():
