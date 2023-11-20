@@ -1,9 +1,6 @@
 import html
-from flask import Flask,render_template, request
+from flask import Flask, render_template, request
 from googleapiclient.discovery import build
-from tensorflow.keras.models import Model
-from tensorflow.keras.optimizers import SGD
-from transformers import AutoTokenizer, TFAutoModelForCausalLM
 
 app = Flask(__name__)
 
@@ -24,12 +21,8 @@ def fake_news_finder():
         keyword = request.form['keyword']
         rate_limit = int(request.form['rate_limit'])
         
-        api_key = "AIzaSyBPHs1Pq49RrKiW1BIFl2uJHYrwa7cpeyY"
+        api_key = "YOUR_YOUTUBE_API_KEY"  # Replace with your actual YouTube API key
         youtube = build('youtube', 'v3', developerKey=api_key)
-        
-        model_name = "gpt2"
-        model = TFAutoModelForCausalLM.from_pretrained(model_name)
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
         
         # Search YouTube for videos with the keyword
         search_response = youtube.search().list(
@@ -81,19 +74,11 @@ def fake_news_finder():
                     comment_text = html.unescape(comment_text)
                     comments.append(comment_text)
 
-        prompt = f"Is it true that {keyword}?"
-        inputs = tokenizer.encode(prompt, return_tensors="tf", add_special_tokens=True)
-
-        # Generate response from GPT-2 model
-        output = model.generate(inputs, max_length=50, do_sample=True, top_k=50, top_p=0.95, pad_token_id=tokenizer.eos_token_id)
-        response = tokenizer.decode(output[0], skip_special_tokens=True)
+        response = f"Response from the modified code. Keyword: {keyword}"
 
         return render_template('fake_news_finder.html', videos=videos, comments=comments, response=response)
 
     return render_template('fake_news_finder.html', videos=None, comments=None, response=None)
-
-
-
 
 # Route for the working page
 @app.route('/working/')
@@ -118,7 +103,5 @@ def report_user():
 
         return "Report submitted successfully."
 
-
 if __name__ == '__main__':
-
     app.run(debug=True)
