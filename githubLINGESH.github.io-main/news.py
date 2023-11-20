@@ -13,7 +13,7 @@ app.static_folder = 'templates'
 def ytgiphy(filename):
     return send_from_directory(app.static_folder, filename)
 
-@app.route('/news', methods=['GET','POST'])
+@app.route('/', methods=['GET','POST'])
 def detect_fake_news():
     user_input = ""
     
