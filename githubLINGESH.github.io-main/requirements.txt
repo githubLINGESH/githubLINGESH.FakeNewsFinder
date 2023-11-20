@@ -1,6 +1,4 @@
 Flask==2.2.2
-numpy
-imageio==2.25.0
 google-api-python-client==2.70.0
 tensorflow==2.11.0
 keras==2.11.0
